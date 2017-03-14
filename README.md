@@ -3,7 +3,7 @@ Käyttöliittymät -kurssin harkkatyö
 
 Harjoitustyön aihe on toteuttaa elokuvalippujen varaukseen tarkoitettu sovellus graafisella käyttöliittymällä.
 
-#Työn vaatimukset:
+##Työn vaatimukset:
 
 -Lipunmyyntijärjestelmä
 sisältää vähintään kaksi elokuvateatteria
@@ -14,27 +14,27 @@ sisältää vähintään kaksi elokuvateatteria
 
 -Asiakkaanja ylläpitäjän näkymät:
 
-	-Ylläpitäjä
-	  +Elokuvien lisääminen, muokkaus ja poisto
-	  +Näytösten lisääminen, muokkaus ja poisto
-	  +Käyttäjien lisääminen (sovellusympäristöstäriippuen myös rekisteröintilomake uusille käyttäjille)
+   -Ylläpitäjä
+     +Elokuvien lisääminen, muokkaus ja poisto
+     +Näytösten lisääminen, muokkaus ja poisto
+     +Käyttäjien lisääminen (sovellusympäristöstäriippuen myös rekisteröintilomake uusille käyttäjille)
 
-	-Asiakas
-	  +Omat varaukset
-	    *Varauksen muokkaus / poisto
-	  +Ohjelmiston selaaminen
-	  +Paikkojen varaaminen näytökseen
-	    *Elokuvateatteri, sali, näytös ja paikat
-	    *Graafinen näkymä (esim. salin pohjapiirros), josta käyttäjä voi valita paikat
-	    *Muiden käyttäjien varaamat paikat eivät ole valittavissa
+   -Asiakas
+     +Omat varaukset
+       *Varauksen muokkaus / poisto*
+     +Ohjelmiston selaaminen
+     +Paikkojen varaaminen näytökseen
+       *Elokuvateatteri, sali, näytös ja paikat*
+       *Graafinen näkymä (esim. salin pohjapiirros), josta käyttäjä voi valita paikat*
+       *Muiden käyttäjien varaamat paikat eivät ole valittavissa*
 
 -Tietojen lataaminen (tietojen tallennusta ohjelman suorituskertojen välillä ei vaaita)
-	oTiedot voi ladata esimerkiksi tekstitiedostosta (oma formaatti, xml, json...)
+	-Tiedot voi ladata esimerkiksi tekstitiedostosta (oma formaatti, xml, json...)
 	  +Yksi tiedoston rivi voi vastata yhtä tietuetta, joten esimerkiksi varaus voisi olla muotoa: teatteri;sali;näytös;paikka;käyttäjä
 	  +Valmiiden merkkauskielten (esim. xml) etuna ovat olemassaolevat jäsentimet
 
 
-#Mitä ajattelin:
+##Mitä ajattelin:
 
 Tarvittavia asiota toteutettavaksi: Käyttäjä, Teatteri, Elokuva, Näytös, Sali(?), Paikka, Varaus
 
