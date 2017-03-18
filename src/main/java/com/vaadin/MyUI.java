@@ -4,10 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.*;
 import com.vaadin.ui.*;
 
 /**
@@ -24,17 +21,16 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
 
-        final Label Otsikko = new Label();
-        Otsikko.setCaption("Elokuvaraus");
-        layout.addComponent(Otsikko);
-        layout.setComponentAlignment(Otsikko, Alignment.TOP_CENTER);
+        CssLayout csslayout = new CssLayout();
+        csslayout.setWidth("100%");
+        csslayout.addStyleName("flexwrap");
+        layout.addComponent(csslayout);
 
-        final HorizontalLayout middleFrontPage = new HorizontalLayout();
-        layout.addComponent(middleFrontPage);
+        Responsive.makeResponsive(csslayout);
 
-        final VerticalLayout middleFrontPageleft = new VerticalLayout();
-        final VerticalLayout middleFrontPageright = new VerticalLayout();
-        middleFrontPage.addComponentsAndExpand(middleFrontPageleft, middleFrontPageright);
+        final Label Otsikko = new Label("Elokuvaraus");
+        Otsikko.addStyleName("title");
+        csslayout.addComponent(Otsikko);
 
         final HorizontalLayout leffaKortti1 = new HorizontalLayout();
         final HorizontalLayout leffaKortti2 = new HorizontalLayout();
@@ -49,7 +45,7 @@ public class MyUI extends UI {
         leffa1tiedotright.addComponents(leffa1otsikko, leffa1nappi);
         leffa1tiedotleft.addComponent(kuva1);
         leffaKortti1.addComponents(leffa1tiedotleft, leffa1tiedotright);
-        middleFrontPageleft.addComponent(leffaKortti1);
+        csslayout.addComponent(leffaKortti1);
 
         Image kuva2 = new Image();
         kuva2.setSource(new ThemeResource("../../elokuvajulisteet/vuosisadannaiset.jpg"));
@@ -60,7 +56,7 @@ public class MyUI extends UI {
         leffa2tiedotright.addComponents(leffa2otsikko, leffa2nappi);
         leffa2tiedotleft.addComponent(kuva2);
         leffaKortti2.addComponents(leffa2tiedotleft, leffa2tiedotright);
-        middleFrontPageleft.addComponent(leffaKortti2);
+        csslayout.addComponent(leffaKortti2);
 
         Image kuva3 = new Image();
         kuva3.setSource(new ThemeResource("../../elokuvajulisteet/legobatman.jpg"));
@@ -71,7 +67,7 @@ public class MyUI extends UI {
         leffa3tiedotright.addComponents(leffa3otsikko, leffa3nappi);
         leffa3tiedotleft.addComponent(kuva3);
         leffaKortti3.addComponents(leffa3tiedotleft, leffa3tiedotright);
-        middleFrontPageright.addComponent(leffaKortti3);
+        csslayout.addComponent(leffaKortti3);
 
         setContent(layout);
     }

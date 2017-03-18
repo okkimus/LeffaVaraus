@@ -12412,3 +12412,33 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.flexwrap {
+	color: black;
+}
+
+.flexwrap .title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 30px;
+	padding: 5px;
+	display: block;
+}
+
+.flexwrap .itembox {
+	white-space: normal;
+	vertical-align: top;
+}
+
+.flexwrap .itembox.v-label {
+	padding: 5px;
+}
+
+.flexwrap[width-range~="0-499px"] .itembox {
+	width: 100%;
+}
+
+.flexwrap[width-range~="500px-"] .itembox {
+	width: 50%;
+}
