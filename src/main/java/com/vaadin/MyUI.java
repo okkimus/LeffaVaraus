@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.*;
 import com.vaadin.ui.*;
 
@@ -16,70 +17,52 @@ import com.vaadin.ui.*;
  */
 @Theme("mytheme")
 public class MyUI extends UI {
+    static Navigator navigator;
+    protected static final String ELOKUVAT= "Elokuvat";
+    protected static final String LOGINVIEW = "Kirjaudu";
+    protected static final String REGISTERVIEW = "Rekisteröidy";
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+        getPage().setTitle("Elokuvavaraus");
+        navigator = new Navigator(this, this);
+        navigator.addView(ELOKUVAT, new Elokuvat());
+        navigator.addView(LOGINVIEW, new Login());
+        navigator.addView(REGISTERVIEW, new Register());
+        navigator.navigateTo(ELOKUVAT);
+    }
 
-        CssLayout csslayout = new CssLayout();
-        csslayout.setWidth("100%");
-        csslayout.addStyleName("flexwrap");
-        layout.addComponent(csslayout);
-
-        Responsive.makeResponsive(csslayout);
-
+    public static Label getOtsikko() {
         final Label Otsikko = new Label("Elokuvaraus");
         Otsikko.addStyleName("title");
-        csslayout.addComponent(Otsikko);
+        return Otsikko;
+    }
 
+    public static MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName("topmenu");
         barmenu.setSizeFull();
-        csslayout.addComponent(barmenu);
-        barmenu.addItem("Elokuvat", null, null);
+//        barmenu.addItem("Elokuvat", null, null);
+        barmenu.addItem(ELOKUVAT,new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
+                navigator.navigateTo(ELOKUVAT);
+            }
+        });
         barmenu.addItem("Omat Varaukset", null, null);
         barmenu.addItem("Ylläpito", null, null);
-        barmenu.addItem("Kirjaudu", null, null);
-        barmenu.addItem("Rekisteröidy", null, null);
-
-        final HorizontalLayout leffaKortti1 = new HorizontalLayout();
-        final HorizontalLayout leffaKortti2 = new HorizontalLayout();
-        final HorizontalLayout leffaKortti3 = new HorizontalLayout();
-
-        Image kuva1 = new Image();
-        kuva1.setSource(new ThemeResource("../../elokuvajulisteet/moonlight.jpg"));
-        final VerticalLayout leffa1tiedotright = new VerticalLayout();
-        final VerticalLayout leffa1tiedotleft= new VerticalLayout();
-        final Label leffa1otsikko = new Label("Moonlight");
-        Button leffa1nappi = new Button("Varaa lippu");
-        leffa1tiedotright.addComponents(leffa1otsikko, leffa1nappi);
-        leffa1tiedotleft.addComponent(kuva1);
-        leffaKortti1.addComponents(leffa1tiedotleft, leffa1tiedotright);
-        csslayout.addComponent(leffaKortti1);
-
-        Image kuva2 = new Image();
-        kuva2.setSource(new ThemeResource("../../elokuvajulisteet/vuosisadannaiset.jpg"));
-        final VerticalLayout leffa2tiedotright = new VerticalLayout();
-        final VerticalLayout leffa2tiedotleft= new VerticalLayout();
-        final Label leffa2otsikko = new Label("Vuosisadan Naiset");
-        Button leffa2nappi = new Button("Varaa lippu");
-        leffa2tiedotright.addComponents(leffa2otsikko, leffa2nappi);
-        leffa2tiedotleft.addComponent(kuva2);
-        leffaKortti2.addComponents(leffa2tiedotleft, leffa2tiedotright);
-        csslayout.addComponent(leffaKortti2);
-
-        Image kuva3 = new Image();
-        kuva3.setSource(new ThemeResource("../../elokuvajulisteet/legobatman.jpg"));
-        final VerticalLayout leffa3tiedotright = new VerticalLayout();
-        final VerticalLayout leffa3tiedotleft= new VerticalLayout();
-        final Label leffa3otsikko = new Label("Lego Batman");
-        Button leffa3nappi = new Button("Varaa lippu");
-        leffa3tiedotright.addComponents(leffa3otsikko, leffa3nappi);
-        leffa3tiedotleft.addComponent(kuva3);
-        leffaKortti3.addComponents(leffa3tiedotleft, leffa3tiedotright);
-        csslayout.addComponent(leffaKortti3);
-
-        setContent(layout);
+//        barmenu.addItem("Kirjaudu", null, null);
+        barmenu.addItem(LOGINVIEW,new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
+                navigator.navigateTo(LOGINVIEW);
+            }
+        });
+//        barmenu.addItem("Rekisteröidy", null, null);
+        barmenu.addItem(REGISTERVIEW,new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
+                navigator.navigateTo(REGISTERVIEW);
+            }
+        });
+        return barmenu;
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
