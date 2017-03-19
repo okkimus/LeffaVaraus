@@ -32,6 +32,16 @@ public class MyUI extends UI {
         Otsikko.addStyleName("title");
         csslayout.addComponent(Otsikko);
 
+        MenuBar barmenu = new MenuBar();
+        barmenu.setStyleName("topmenu");
+        barmenu.setSizeFull();
+        csslayout.addComponent(barmenu);
+        barmenu.addItem("Elokuvat", null, null);
+        barmenu.addItem("Omat Varaukset", null, null);
+        barmenu.addItem("Ylläpito", null, null);
+        barmenu.addItem("Kirjaudu", null, null);
+        barmenu.addItem("Rekisteröidy", null, null);
+
         final HorizontalLayout leffaKortti1 = new HorizontalLayout();
         final HorizontalLayout leffaKortti2 = new HorizontalLayout();
         final HorizontalLayout leffaKortti3 = new HorizontalLayout();
