@@ -5,9 +5,6 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.ui.*;
 
-/**
- * Created by teppo on 19.3.2017.
- */
 public class Register extends VerticalLayout implements View {
     public Register() {
         setSizeFull();

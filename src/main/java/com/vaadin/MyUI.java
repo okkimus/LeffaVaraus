@@ -42,7 +42,6 @@ public class MyUI extends UI {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName("topmenu");
         barmenu.setSizeFull();
-//        barmenu.addItem("Elokuvat", null, null);
         barmenu.addItem(ELOKUVAT,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
                 navigator.navigateTo(ELOKUVAT);
@@ -50,13 +49,11 @@ public class MyUI extends UI {
         });
         barmenu.addItem("Omat Varaukset", null, null);
         barmenu.addItem("Ylläpito", null, null);
-//        barmenu.addItem("Kirjaudu", null, null);
         barmenu.addItem(LOGINVIEW,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
                 navigator.navigateTo(LOGINVIEW);
             }
         });
-//        barmenu.addItem("Rekisteröidy", null, null);
         barmenu.addItem(REGISTERVIEW,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
                 navigator.navigateTo(REGISTERVIEW);
