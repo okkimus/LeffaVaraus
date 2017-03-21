@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Sali {
     private static int counter = 0;
@@ -5,13 +6,15 @@ public class Sali {
     private int id;
     private int kapasiteetti;
     private Teatteri teatteri;
-    private Paikka[] paikat;
+    private int[][] paikat;
+    //private Paikka[] paikat;
 
-    public Sali(int kapasiteetti, Teatteri teatteri) {
+    public Sali(int kapasiteetti, Teatteri teatteri, int rivit, int paikatRivilla) {
         this.id = ++counter;
         this.kapasiteetti = kapasiteetti;
         this.teatteri = teatteri;
-        this.paikat = new Paikka[kapasiteetti];
+        this.paikat = new int[rivit][paikatRivilla];
+        setPaikat(rivit, paikatRivilla);
     }
 
     public int getId() {
@@ -34,11 +37,15 @@ public class Sali {
         this.teatteri = teatteri;
     }
 
-    public Paikka[] getPaikat() {
+    public int[][] getPaikat() {
         return paikat;
     }
 
-    public void setPaikat(Paikka[] paikat) {
-        this.paikat = paikat;
+    public void setPaikat(int rivienMaara, int paikkojaRivilla) {
+        for (int i = 0; i < rivienMaara; i++) {
+            for (int j = 0; j < paikkojaRivilla; j++) {
+                this.paikat[i][j] = 0;
+            }
+        }
     }
 }

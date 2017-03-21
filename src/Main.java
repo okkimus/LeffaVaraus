@@ -4,16 +4,31 @@ public class Main {
         Kayttaja[] kayttajat = luoKayttajia();
         Teatteri[] teatterit = luoTeatterit();
         Elokuva[] elokuvat = luoElokuvat();
+        Sali s1 = new Sali(50, teatterit[0], 12, 18);
+        Sali s2 = new Sali(55, teatterit[1], 10, 16);
+        Naytos n1 = new Naytos("12.00", s1, elokuvat[0]);
+        Naytos n2 = new Naytos("12.00", s2, elokuvat[2]);
+        Naytos n3 = new Naytos("12.00", s1, elokuvat[1]);
 
-        for (int i = 0; i < kayttajat.length; i++) {
-            System.out.println(kayttajat[i]);
-        }
-        for (int i = 0; i < teatterit.length; i++) {
-            System.out.println(teatterit[i]);
-        }
-        for (int i = 0; i < elokuvat.length; i++) {
-            System.out.println(elokuvat[i]);
-        }
+        Naytos[] ohjelmisto = new Naytos[3];
+        ohjelmisto[0] = n1;
+        ohjelmisto[1] = n2;
+        ohjelmisto[0] = n3;
+
+        teatterit[0].setOhjelmisto(ohjelmisto);
+
+        n1.tulostaPaikkaKartta();
+
+//        System.out.println(s1);
+//        for (int i = 0; i < kayttajat.length; i++) {
+//            System.out.println(kayttajat[i]);
+//        }
+//        for (int i = 0; i < teatterit.length; i++) {
+//            System.out.println(teatterit[i]);
+//        }
+//        for (int i = 0; i < elokuvat.length; i++) {
+//            System.out.println(elokuvat[i]);
+//        }
     }
 
     public static Kayttaja[] luoKayttajia() {
