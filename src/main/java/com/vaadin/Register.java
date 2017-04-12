@@ -2,36 +2,26 @@ package com.vaadin;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Responsive;
-import com.vaadin.ui.*;
+import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.VerticalLayout;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class Register extends VerticalLayout implements View {
-    public Register() {
-        setSizeFull();
+import javax.annotation.PostConstruct;
 
-        CssLayout csslayout = new CssLayout();
-        csslayout.setWidth("100%");
-        csslayout.addStyleName("flexwrap");
-        addComponent(csslayout);
+@SpringView(name = Register.REGISTERVIEW)
+class Register extends VerticalLayout implements View {
+    public static final String REGISTERVIEW= "Rekisteröinti";
 
-        Responsive.makeResponsive(csslayout);
+    @Autowired
+    RegisterContent content = new RegisterContent();
 
-        csslayout.addComponent(MyUI.getOtsikko());
-        csslayout.addComponent(MyUI.getMenubar());
-        csslayout.addComponent(new Label("Rekisteröi uusi käyttäjä"));
-        csslayout.addComponent(
-                new VerticalLayout(
-                        new TextField("Käyttäjänimi"),
-                        new TextField("Salasana"),
-                        new HorizontalLayout(
-                                new Button("Kirjaudu"),
-                                new Button("Peruuta")
-                        )
-                )
-        );
+    @PostConstruct
+    void init() {
+        addComponent(content);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        // This view is constructed in the init() method()
     }
 }
