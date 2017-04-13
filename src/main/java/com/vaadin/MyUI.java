@@ -1,12 +1,19 @@
 package com.vaadin;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.*;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
+
+import static com.vaadin.ElokuvaKortti.ELOKUVAT;
+import static com.vaadin.Login.LOGINVIEW;
+import static com.vaadin.Register.REGISTERVIEW;
+import static com.vaadin.Yllapito.YLLAPITOVIEW;
+import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -15,21 +22,30 @@ import com.vaadin.ui.*;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
  */
-@Theme("mytheme")
-public class MyUI extends UI {
-    static Navigator navigator;
-    protected static final String ELOKUVAT= "Elokuvat";
-    protected static final String LOGINVIEW = "Kirjaudu";
-    protected static final String REGISTERVIEW = "Rekisteröidy";
+@SpringUI
+@Theme("valo")
+@SpringViewDisplay
+public class MyUI extends UI implements ViewDisplay {
+    private VerticalLayout springViewDisplay;
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        getPage().setTitle("Elokuvavaraus");
-        navigator = new Navigator(this, this);
-        navigator.addView(ELOKUVAT, new Elokuvat());
-        navigator.addView(LOGINVIEW, new Login());
-        navigator.addView(REGISTERVIEW, new Register());
-        navigator.navigateTo(ELOKUVAT);
+    protected void init(VaadinRequest request) {
+        setSizeFull();
+        final VerticalLayout root = new VerticalLayout();
+        root.addComponent(getOtsikko());
+        root.setSizeFull();
+        setContent(root);
+
+        final CssLayout navigationBar = new CssLayout();
+        navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+        navigationBar.addComponents(getMenubar());
+        navigationBar.setWidth("100%");
+        root.addComponent(navigationBar);
+
+        springViewDisplay = new VerticalLayout();
+        springViewDisplay.setSizeFull();
+        root.addComponent(springViewDisplay);
+        root.setExpandRatio(springViewDisplay, 1.0f);
     }
 
     public static Label getOtsikko() {
@@ -38,32 +54,45 @@ public class MyUI extends UI {
         return Otsikko;
     }
 
-    public static MenuBar getMenubar() {
+    public MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName("topmenu");
         barmenu.setSizeFull();
         barmenu.addItem(ELOKUVAT,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                navigator.navigateTo(ELOKUVAT);
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(ELOKUVAT);
             }
         });
-        barmenu.addItem("Omat Varaukset", null, null);
-        barmenu.addItem("Ylläpito", null, null);
+        barmenu.addItem(OMATVARAUKSET, new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem) {
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(OMATVARAUKSET);
+            }
+        });
+        barmenu.addItem(YLLAPITOVIEW, new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(YLLAPITOVIEW);
+            }
+        });
         barmenu.addItem(LOGINVIEW,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                navigator.navigateTo(LOGINVIEW);
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(LOGINVIEW);
             }
         });
         barmenu.addItem(REGISTERVIEW,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                navigator.navigateTo(REGISTERVIEW);
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(REGISTERVIEW);
             }
         });
         return barmenu;
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
+    @Override
+    public void showView(View view) {
+        springViewDisplay.addComponent((Component) view);
     }
 }

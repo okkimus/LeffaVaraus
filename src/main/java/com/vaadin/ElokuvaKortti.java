@@ -4,10 +4,13 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 
-public class Elokuvat extends VerticalLayout implements View {
-    public Elokuvat() {
+@SpringView(name = ElokuvaKortti.ELOKUVAT)
+public class ElokuvaKortti extends VerticalLayout implements View {
+    public static final String ELOKUVAT= "Elokuvat";
+    public ElokuvaKortti() {
         setSizeFull();
 
         CssLayout csslayout = new CssLayout();
@@ -16,9 +19,6 @@ public class Elokuvat extends VerticalLayout implements View {
         addComponent(csslayout);
 
         Responsive.makeResponsive(csslayout);
-
-        csslayout.addComponent(MyUI.getOtsikko());
-        csslayout.addComponent(MyUI.getMenubar());
 
         final HorizontalLayout leffaKortti1 = new HorizontalLayout();
         final HorizontalLayout leffaKortti2 = new HorizontalLayout();

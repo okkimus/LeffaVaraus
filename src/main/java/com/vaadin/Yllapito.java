@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = Register.REGISTERVIEW)
-class Register extends VerticalLayout implements View {
-    public static final String REGISTERVIEW= "Rekisteröinti";
+@SpringView(name = Yllapito.YLLAPITOVIEW)
+class Yllapito extends VerticalLayout implements View {
+    public static final String YLLAPITOVIEW = "Ylläpito";
 
     @Autowired
-    RegisterContent content = new RegisterContent();
+    YllapitoContent content = new YllapitoContent();
 
     @PostConstruct
     void init() {
