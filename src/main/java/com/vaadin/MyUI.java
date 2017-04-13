@@ -12,6 +12,8 @@ import com.vaadin.ui.themes.ValoTheme;
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
 import static com.vaadin.Login.LOGINVIEW;
 import static com.vaadin.Register.REGISTERVIEW;
+import static com.vaadin.Yllapito.YLLAPITOVIEW;
+import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -62,8 +64,18 @@ public class MyUI extends UI implements ViewDisplay {
                 getUI().getNavigator().navigateTo(ELOKUVAT);
             }
         });
-        barmenu.addItem("Omat Varaukset", null, null);
-        barmenu.addItem("Ylläpito", null, null);
+        barmenu.addItem(OMATVARAUKSET, new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem) {
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(OMATVARAUKSET);
+            }
+        });
+        barmenu.addItem(YLLAPITOVIEW, new MenuBar.Command() {
+            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
+                springViewDisplay.removeAllComponents();
+                getUI().getNavigator().navigateTo(YLLAPITOVIEW);
+            }
+        });
         barmenu.addItem(LOGINVIEW,new MenuBar.Command() {
             @Override public void menuSelected(MenuBar.MenuItem selectedItem){
                 springViewDisplay.removeAllComponents();
