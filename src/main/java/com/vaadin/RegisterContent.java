@@ -1,22 +1,22 @@
 package com.vaadin;
 
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@UIScope
 @SpringComponent
-public class RegisterContent extends HorizontalLayout implements KayttajaChangeListener {
+class RegisterContent extends HorizontalLayout {
+    private TextField nimi = new TextField("Nimi");
+    private TextField kayttajatunnus = new TextField("Käyttäjätunnus");
+    private TextField salasana = new TextField("Salasana");
 
     @Autowired
-    KayttajaRepository repository;
-    List<Kayttaja> kayttajat;
+    private KayttajaRepository repository;
 
     @PostConstruct
     void init() {
@@ -24,29 +24,62 @@ public class RegisterContent extends HorizontalLayout implements KayttajaChangeL
     }
 
     private void update() {
-        setKayttajat(repository.findAll());
+        setKayttajat();
     }
 
-    private void setKayttajat(List<Kayttaja> kayttajat) {
-        this.kayttajat = kayttajat;
+    private void setKayttajat() {
         removeAllComponents();
-        addComponent(new RegisterLomake(kayttajat, this));
+        addLomake();
+        addShowRegisteredUsersLayout();
+    }
 
+    private void addLomake() {
+        FormLayout lomake = new FormLayout();
+
+        Button cancel = new Button("Peruuta", this::cancel);
+        Button ok = new Button("OK", this::ok);
+        ok.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        ok.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+
+        nimi.setRequiredIndicatorVisible(true);
+        kayttajatunnus.setRequiredIndicatorVisible(true);
+        salasana.setRequiredIndicatorVisible(true);
+
+        lomake.addComponent(new Label("Rekisteröi uusi käyttäjä"));
+        lomake.addComponents(nimi, kayttajatunnus, salasana);
+        lomake.addComponents(new HorizontalLayout(cancel, ok));
+        addComponent(lomake);
+    }
+
+    private void ok(Button.ClickEvent event) {
+        Kayttaja k = new Kayttaja(nimi.getValue(),
+                kayttajatunnus.getValue(),
+                salasana.getValue());
+        addKayttaja(k);
+        nimi.setValue("");
+        kayttajatunnus.setValue("");
+        salasana.setValue("");
+    }
+
+    private void cancel(Button.ClickEvent event) {
+        nimi.setValue("");
+        kayttajatunnus.setValue("");
+        salasana.setValue("");
+    }
+
+    private void addShowRegisteredUsersLayout() { //TODO poista jossain välissä
+        List<Kayttaja> kayttajat;
+        kayttajat = repository.findAll();
         VerticalLayout users = new VerticalLayout();
         users.addComponent(new Label("Käyttäjät"));
-        kayttajat.forEach(k -> users.addComponent(new Label(k.getNimi()+" "
-                +k.getKayttajatunnus()+" "
-                +k.getSalasana())));
+        kayttajat.forEach(k -> users.addComponent(new Label(k.getNimi() + " "
+                + k.getKayttajatunnus() + " "
+                + k.getSalasana())));
         addComponent(users);
     }
 
-    void addKayttaja(Kayttaja kayttaja) {
+    private void addKayttaja(Kayttaja kayttaja) {
         repository.save(kayttaja);
         update();
-    }
-
-    @Override
-    public void KayttajaChanged(Kayttaja kayttaja) {
-        addKayttaja(kayttaja);
     }
 }
