@@ -18,12 +18,15 @@ public class Elokuva {
     @NotNull
     private String tyylilaji;
 
+    private String kuvanOsoite;
+
     public Elokuva() {
     }
 
-    public Elokuva(String nimi, String tyylilaji) {
+    public Elokuva(String nimi, String tyylilaji, String kuvanOsoite) {
         this.nimi = nimi;
         this.tyylilaji = tyylilaji;
+        this.kuvanOsoite = kuvanOsoite;
     }
 
     public void setId(long id) {
@@ -43,19 +46,22 @@ public class Elokuva {
     }
 
     public String getNimi() {
-        return nimi;
+        return kuvanOsoite; // FIXME ??
     }
 
     public String getTyylilaji() {
-        return tyylilaji;
+        return nimi; //FIXME ??
     }
 
-    @Override
-    public String toString() {
-        return "Elokuva{" +
-                "id=" + id +
-                ", nimi=" + nimi +
-                ", tyylilaji='" + tyylilaji +
-                '}';
+    public String getKuvanOsoite() {
+        if (tyylilaji!="") {
+            return tyylilaji; //FiXME ??
+        } else {
+            return "../../elokuvajulisteet/notfound.jpg";
+        }
+    }
+
+    public void setKuvanOsoite(String kuvanOsoite) {
+        this.kuvanOsoite = kuvanOsoite;
     }
 }
