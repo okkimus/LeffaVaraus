@@ -9,6 +9,8 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.util.Objects;
+
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
 import static com.vaadin.Login.LOGINVIEW;
 import static com.vaadin.Register.REGISTERVIEW;
@@ -32,7 +34,13 @@ public class MyUI extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
         setSizeFull();
         final VerticalLayout root = new VerticalLayout();
-        root.addComponent(getOtsikko());
+        String username = String.valueOf(getSession().getAttribute("user"));
+        HorizontalLayout otsikko = new HorizontalLayout(getOtsikko());
+        root.addComponent(otsikko);
+        root.setComponentAlignment(otsikko, Alignment.MIDDLE_CENTER);
+        HorizontalLayout userBar = new HorizontalLayout(getCurrentUser(username));
+        root.addComponent(userBar);
+        root.setComponentAlignment(userBar, Alignment.MIDDLE_RIGHT);
         root.setSizeFull();
         setContent(root);
 
