@@ -26,7 +26,7 @@ import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 @Theme("valo")
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
-    private VerticalLayout springViewDisplay;
+    private VerticalLayout layout;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -42,57 +42,58 @@ public class MyUI extends UI implements ViewDisplay {
         navigationBar.setWidth("100%");
         root.addComponent(navigationBar);
 
-        springViewDisplay = new VerticalLayout();
-        springViewDisplay.setSizeFull();
-        root.addComponent(springViewDisplay);
-        root.setExpandRatio(springViewDisplay, 1.0f);
+        layout = new VerticalLayout();
+        layout.setSizeFull();
+        root.addComponent(layout);
+        root.setExpandRatio(layout, 1.0f);
+        getUI().getNavigator().navigateTo(ELOKUVAT);
     }
 
-    public static Label getOtsikko() {
-        final Label Otsikko = new Label("Elokuvaraus");
+    // FIXME Ei päivitä automaattisesti näkymään...
+    private Component getCurrentUser(String username) {
+        HorizontalLayout currentUserBar = new HorizontalLayout();
+        Label currentUser;
+        Button logout = new Button("Kirjaudu ulos",this::logout);
+        if (!Objects.equals(username, "null")) {
+            currentUser = new Label("Moikka "+username);
+            currentUserBar.addComponents(currentUser, logout);
+        } else {
+            currentUser = new Label("");
+            currentUserBar.addComponents(currentUser);
+        }
+        return currentUserBar;
+    }
+
+    private void logout(Button.ClickEvent event) {
+        getSession().setAttribute("user", null);
+    }
+
+    private static Label getOtsikko() {
+        final Label Otsikko = new Label("Elokuvan varaaminen");
         Otsikko.addStyleName("title");
         return Otsikko;
     }
 
-    public MenuBar getMenubar() {
+    private MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName("topmenu");
         barmenu.setSizeFull();
-        barmenu.addItem(ELOKUVAT,new MenuBar.Command() {
-            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                springViewDisplay.removeAllComponents();
-                getUI().getNavigator().navigateTo(ELOKUVAT);
-            }
-        });
-        barmenu.addItem(OMATVARAUKSET, new MenuBar.Command() {
-            @Override public void menuSelected(MenuBar.MenuItem selectedItem) {
-                springViewDisplay.removeAllComponents();
-                getUI().getNavigator().navigateTo(OMATVARAUKSET);
-            }
-        });
-        barmenu.addItem(YLLAPITOVIEW, new MenuBar.Command() {
-            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                springViewDisplay.removeAllComponents();
-                getUI().getNavigator().navigateTo(YLLAPITOVIEW);
-            }
-        });
-        barmenu.addItem(LOGINVIEW,new MenuBar.Command() {
-            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                springViewDisplay.removeAllComponents();
-                getUI().getNavigator().navigateTo(LOGINVIEW);
-            }
-        });
-        barmenu.addItem(REGISTERVIEW,new MenuBar.Command() {
-            @Override public void menuSelected(MenuBar.MenuItem selectedItem){
-                springViewDisplay.removeAllComponents();
-                getUI().getNavigator().navigateTo(REGISTERVIEW);
-            }
-        });
+        barmenu.addItem(ELOKUVAT,
+                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
+        barmenu.addItem(OMATVARAUKSET,
+                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
+        barmenu.addItem(YLLAPITOVIEW,
+                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
+        barmenu.addItem(LOGINVIEW,
+                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
+        barmenu.addItem(REGISTERVIEW,
+                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(REGISTERVIEW));
         return barmenu;
     }
 
     @Override
     public void showView(View view) {
-        springViewDisplay.addComponent((Component) view);
+        layout.removeAllComponents();
+        layout.addComponent((Component) view);
     }
 }
