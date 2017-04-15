@@ -38,6 +38,7 @@ public class YllapitoContent extends HorizontalLayout {
         FormLayout form = new FormLayout();
         TextField nimi = new TextField("Nimi");
         TextField tyylilaji = new TextField("Tyylilaji");
+        TextField kuvanosoite = new TextField("Kuvan osoite");
         Elokuva elokuva = new Elokuva();
         Button cancel = new Button("Peruuta", event -> {
         });
@@ -46,12 +47,13 @@ public class YllapitoContent extends HorizontalLayout {
         ok.addStyleName( ValoTheme.BUTTON_FRIENDLY);
 
         form.addComponent(new Label("Lisää uusi elokuva"));
-        form.addComponents(nimi, tyylilaji);
+        form.addComponents(nimi, tyylilaji, kuvanosoite);
         form.addComponents(new HorizontalLayout(ok, cancel));
 
         ok.addClickListener(click -> {
             elokuva.setNimi(nimi.getValue());
             elokuva.setTyylilaji(tyylilaji.getValue());
+            elokuva.setKuvanOsoite(kuvanosoite.getValue());
             addElokuva(elokuva);
             nimi.setValue("");
             tyylilaji.setValue("");
@@ -64,6 +66,7 @@ public class YllapitoContent extends HorizontalLayout {
         elokuvaGrid.addColumn(Elokuva::getId).setCaption("Id");
         elokuvaGrid.addColumn(Elokuva::getNimi).setCaption("Nimi");
         elokuvaGrid.addColumn(Elokuva::getTyylilaji).setCaption("Tyylilaji");
+        elokuvaGrid.addColumn(Elokuva::getKuvanOsoite).setCaption("Kuvan osoite");
 
         VerticalLayout elokuvatLista = new VerticalLayout();
         elokuvatLista.addComponents(new Label("Elokuvat"), elokuvaGrid);
