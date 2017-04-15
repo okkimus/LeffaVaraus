@@ -46,16 +46,16 @@ public class Elokuva {
     }
 
     public String getNimi() {
-        return kuvanOsoite; // FIXME ??
+        return nimi;
     }
 
     public String getTyylilaji() {
-        return nimi; //FIXME ??
+        return tyylilaji;
     }
 
     public String getKuvanOsoite() {
-        if (tyylilaji!="") {
-            return tyylilaji; //FiXME ??
+        if (kuvanOsoite!="") {
+            return kuvanOsoite;
         } else {
             return "../../elokuvajulisteet/notfound.jpg";
         }
