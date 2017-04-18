@@ -2,7 +2,6 @@ package com.vaadin;
 
 import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @SpringComponent
-public class YllapitoContent extends HorizontalLayout {
+public class YllapitoElokuvatContent extends HorizontalLayout {
 
     @Autowired
     ElokuvaRepository repository;
@@ -62,14 +61,23 @@ public class YllapitoContent extends HorizontalLayout {
 
         elokuvaGrid.setItems(elokuvat);
 
+        TextField nimiEditor = new TextField();
+        TextField tyylilajiEditor = new TextField();
+        TextField kuvanOsoiteEditor = new TextField();
+
         elokuvaGrid.setSizeFull();
         elokuvaGrid.addColumn(Elokuva::getId).setCaption("Id");
-        elokuvaGrid.addColumn(Elokuva::getNimi).setCaption("Nimi");
-        elokuvaGrid.addColumn(Elokuva::getTyylilaji).setCaption("Tyylilaji");
-        elokuvaGrid.addColumn(Elokuva::getKuvanOsoite).setCaption("Kuvan osoite");
+        elokuvaGrid.addColumn(Elokuva::getNimi).setCaption("Nimi")
+            .setEditorComponent(nimiEditor, Elokuva::setNimi);
+        elokuvaGrid.addColumn(Elokuva::getTyylilaji).setCaption("Tyylilaji")
+            .setEditorComponent(tyylilajiEditor, Elokuva::setTyylilaji);
+        elokuvaGrid.addColumn(Elokuva::getKuvanOsoite).setCaption("Kuvan osoite")
+            .setEditorComponent(kuvanOsoiteEditor, Elokuva::setKuvanOsoite);
+
+        elokuvaGrid.getEditor().setEnabled(true);
 
         VerticalLayout elokuvatLista = new VerticalLayout();
-        elokuvatLista.addComponents(new Label("Elokuvat"), elokuvaGrid);
+        elokuvatLista.addComponents(new Label("Elokuvat (tuplaklikkaa muokataksesi elokuvaa)"), elokuvaGrid);
 
         addComponent(form);
         addComponent(elokuvatLista);

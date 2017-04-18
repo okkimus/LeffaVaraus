@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = Yllapito.YLLAPITOVIEW)
-class Yllapito extends VerticalLayout implements View {
-    public static final String YLLAPITOVIEW = "Ylläpito";
+@SpringView(name = YllapitoElokuvat.YLLAPITOELOKUVAVIEW)
+class YllapitoElokuvat extends VerticalLayout implements View {
+    public static final String YLLAPITOELOKUVAVIEW = "Hallinoi elokuvia";
 
     @Autowired
-    YllapitoContent content = new YllapitoContent();
+    YllapitoElokuvatContent content = new YllapitoElokuvatContent();
 
     @PostConstruct
     void init() {

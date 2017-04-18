@@ -13,7 +13,7 @@ import java.util.List;
 class ElokuvaKorttiContent extends HorizontalLayout {
 
     @Autowired
-    private ElokuvaRepository repository;
+    private ElokuvaRepository elokuvaRepository;
     private List<Elokuva> elokuvat;
 
     @PostConstruct
@@ -22,7 +22,7 @@ class ElokuvaKorttiContent extends HorizontalLayout {
     }
 
     private void update() {
-        this.elokuvat = repository.findAll();
+        this.elokuvat = elokuvaRepository.findAll();
         setKayttajat();
     }
 
