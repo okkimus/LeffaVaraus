@@ -22,6 +22,5 @@ class YllapitoElokuvat extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        // This view is constructed in the init() method()
     }
 }

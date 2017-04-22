@@ -1,6 +1,7 @@
 package com.vaadin;
 
 import com.vaadin.data.Binder;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
@@ -9,15 +10,19 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SpringComponent
 public class OmatVarauksetContent extends HorizontalLayout {
 
     @Autowired
     VarausRepository repository;
+
     List<Varaus> varaukset;
     Binder<Varaus> binder = new Binder<>(Varaus.class);
+
 
     private Grid<Varaus> varausGrid;
 
@@ -35,7 +40,12 @@ public class OmatVarauksetContent extends HorizontalLayout {
         this.varausGrid = new Grid<>();
         removeAllComponents();
 
-        varausGrid.setItems(varaukset);
+        String username = String.valueOf(getSession());
+        if ((username.equals("null"))) {
+            addComponent(new Label("toimii"));
+        }
+
+        varausGrid.setItems(this.varaukset);
         varausGrid.addColumn(Varaus::getElokuvanNimi).setCaption("Elokuva");
         varausGrid.addColumn(Varaus::getRivi).setCaption("Rivi");
         varausGrid.addColumn(Varaus::getPaikka).setCaption("Paikka");

@@ -12,17 +12,18 @@ import javax.annotation.PostConstruct;
 public class OmatVaraukset extends VerticalLayout implements View {
     public static final String OMATVARAUKSET = "Omat varaukset";
 
+
+
     @Autowired
     OmatVarauksetContent content = new OmatVarauksetContent();
 
     @PostConstruct
-    void init() {
-        addComponent(content);
+    void init() { addComponent(content);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        // This view is constructed in the init() method()
+        init();
     }
 
 

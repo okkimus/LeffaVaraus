@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = ElokuvaKortti.ELOKUVAT)
-class ElokuvaKortti extends VerticalLayout implements View {
-    public static final String ELOKUVAT= "Elokuvat";
+@SpringView(name = YksittainenElokuva.YKSITTAINENELOKUVAVIEW)
+class YksittainenElokuva extends VerticalLayout implements View {
+    public static final String YKSITTAINENELOKUVAVIEW= "Elokuva";
 
     @Autowired
-    ElokuvaKorttiContent content = new ElokuvaKorttiContent();
+    ElokuvaRepository repository;
+    @Autowired
+    YksittainenElokuvaContent content = new YksittainenElokuvaContent();
+
 
     @PostConstruct
     void init() {
@@ -22,6 +25,8 @@ class ElokuvaKortti extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        content.update();
+        int id = Integer.parseInt(event.getParameters());
+        content.haeElokuvaKannasta(id);
+        init();
     }
 }

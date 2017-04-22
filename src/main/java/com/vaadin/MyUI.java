@@ -22,6 +22,7 @@ import static com.vaadin.Register.REGISTERVIEW;
 import static com.vaadin.YllapitoElokuvat.YLLAPITOELOKUVAVIEW;
 import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 import static com.vaadin.YllapitoNaytokset.YLLAPITONAYTOKSETVIEW;
+import static com.vaadin.YksittainenElokuva.YKSITTAINENELOKUVAVIEW;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -61,6 +62,7 @@ public class MyUI extends UI implements ViewDisplay {
         root.addComponent(layout);
         root.setExpandRatio(layout, 1.0f);
         getUI().getNavigator().navigateTo(ELOKUVAT);
+
     }
 
     // FIXME Ei päivitä automaattisesti näkymään...
@@ -69,7 +71,7 @@ public class MyUI extends UI implements ViewDisplay {
         Label currentUser;
         Button logout = new Button("Kirjaudu ulos",this::logout);
         if (!Objects.equals(username, "null")) {
-            currentUser = new Label("Moikka "+username);
+            currentUser = new Label("Moikka "+username  );
             currentUserBar.addComponents(currentUser, logout);
         } else {
             currentUser = new Label("");

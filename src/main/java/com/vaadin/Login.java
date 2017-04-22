@@ -3,6 +3,7 @@ package com.vaadin;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -56,9 +57,14 @@ class Login extends CustomComponent implements View, Button.ClickListener {
     public void buttonClick(Button.ClickEvent event) {
         String username = kayttajatunnus.getValue();
         String password = this.salasana.getValue();
+
         boolean isValid = isValid(username, password);
         if (isValid) {
-            getSession().setAttribute("user", username);
+            for (Kayttaja k : kayttajat) {
+                if (k.getKayttajatunnus().equals(username)) {
+                    getSession().setAttribute("user", username);
+                }
+            }
             getUI().getNavigator().navigateTo(ELOKUVAT);
             Notification.show("Paina reload selaimessa",
                             "käyttäjätieto ei päivity muuten selaimeen :(",

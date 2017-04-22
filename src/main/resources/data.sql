@@ -15,7 +15,10 @@ INSERT INTO Elokuva VALUES(6,'../../elokuvajulisteet/legobatman.jpg', 'Lego Batm
 CREATE TABLE IF NOT EXISTS Varaus(id IDENTITY PRIMARY KEY, elokuvanNimi VARCHAR(40), varaajanId INT, naytoksenId INT, rivi INT, paikka INT);
 DELETE FROM Varaus;
 INSERT INTO Varaus VALUES(1, 'Inception', 1, 1, 2, 2);
-INSERT INTO Varaus VALUES(2, 'Inception', 1, 1, 2, 3);
+INSERT INTO Varaus VALUES(2, 'Lego Movie', 1, 1, 2, 3);
+INSERT INTO Varaus VALUES(3, 'Alien', 1, 2, 2, 2);
+INSERT INTO Varaus VALUES(4, 'JutassiPark', 1, 3, 2, 3);
+
 
 CREATE TABLE IF NOT EXISTS Naytos(id IDENTITY PRIMARY KEY, elokuvanId VARCHAR(3) NOT NULL, sali VARCHAR(20) NOT NULL, kellonAika VARCHAR(9) NOT NULL, paiva VARCHAR(15) NOT NULL, riveja INT NOT NULL, paikkojaRivilla INT NOT NULL);
 DELETE FROM Naytos;
