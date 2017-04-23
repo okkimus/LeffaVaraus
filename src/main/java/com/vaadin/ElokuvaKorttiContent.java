@@ -33,10 +33,7 @@ class ElokuvaKorttiContent extends HorizontalLayout {
 
     private void addKortit() {
         CssLayout csslayout = new CssLayout();
-        csslayout.setWidth("100%");
-        csslayout.addStyleName("flexwrap");
-        addComponent(csslayout);
-        Responsive.makeResponsive(csslayout);
+        csslayout.setSizeFull();
 
         for (Elokuva e : elokuvat) {
             final HorizontalLayout leffaKortti = new HorizontalLayout();
@@ -60,6 +57,10 @@ class ElokuvaKorttiContent extends HorizontalLayout {
 
             csslayout.addComponent(leffaKortti);
         }
-        addComponent(csslayout);
+        Panel panel = new Panel();
+        panel.setSizeFull();
+        addComponent(panel);
+        setComponentAlignment(panel, Alignment.TOP_CENTER);
+        panel.setContent(csslayout);
     }
 }

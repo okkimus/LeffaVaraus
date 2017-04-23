@@ -3,6 +3,8 @@ package com.vaadin;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -15,7 +17,7 @@ import java.util.List;
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
 
 @SpringView(name = Login.LOGINVIEW)
-class Login extends CustomComponent implements View, Button.ClickListener {
+class Login extends VerticalLayout implements View, Button.ClickListener {
     static final String LOGINVIEW = "Kirjaudu";
 
     private final TextField kayttajatunnus;
@@ -31,10 +33,15 @@ class Login extends CustomComponent implements View, Button.ClickListener {
     }
 
     public Login() {
+        Panel panel = new Panel();
+        panel.setSizeUndefined();
+        addComponent(panel);
+        setComponentAlignment(panel, Alignment.TOP_CENTER);
+
         setSizeFull();
         FormLayout lomake = new FormLayout();
 
-        kayttajatunnus = new TextField("Käyttätunnus");
+        kayttajatunnus = new TextField("Käyttäjätunnus");
         salasana = new PasswordField("Salasana");
         salasana.setValue("");
 
@@ -44,25 +51,34 @@ class Login extends CustomComponent implements View, Button.ClickListener {
 
         lomake.addComponent(new Label("Kirjaudu sisään"));
         lomake.addComponents(kayttajatunnus, salasana, kirjauduNappi);
-        setCompositionRoot(lomake);
+        lomake.setMargin(true);
+        panel.setContent(lomake);
     }
 
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        kayttajatunnus.focus();
+    private void naytaKirjautumisVinkki() {
+
+        List<Kayttaja> kayttajat;
+        kayttajat = repository.findAll();
+        String users = "";
+        for (Kayttaja k: kayttajat) {
+            users += k.getKayttajatunnus() + " " + k.getSalasana() + " \n";
+        }
+        Notification notif = new Notification(
+               "Testi tunnuksia",
+                users,
+                Notification.Type.HUMANIZED_MESSAGE);
+        notif.setDelayMsec(10000); // 10 sek
+        notif.setPosition(Position.BOTTOM_CENTER);
+        notif.show(Page.getCurrent());
     }
 
     @Override
     public void buttonClick(Button.ClickEvent event) {
         String username = kayttajatunnus.getValue();
-        String password = this.salasana.getValue();
-        boolean isValid = isValid(username, password);
-        if (isValid) {
-            getSession().setAttribute("user", username);
+        String password = salasana.getValue();
+        KirjautumisKontrolli kirjautumisKontrolli = (KirjautumisKontrolli) getSession().getAttribute("kirjautumisKontrolli");
+        if (kirjautumisKontrolli.signIn(kayttajat, username, password)) {
             getUI().getNavigator().navigateTo(ELOKUVAT);
-            Notification.show("Paina reload selaimessa",
-                            "käyttäjätieto ei päivity muuten selaimeen :(",
-                    Notification.Type.HUMANIZED_MESSAGE); // TODO poista kun korjattu
         } else {
             Notification.show("Antamasi salasana on väärä",
                     "Syötä salasana uudelleen",
@@ -72,13 +88,9 @@ class Login extends CustomComponent implements View, Button.ClickListener {
         }
     }
 
-    private boolean isValid(String uname, String passwd) {
-        for (Kayttaja k : kayttajat) {
-            if (k.getKayttajatunnus().equals(uname) &&
-                    k.getSalasana().equals(passwd)) {
-                return true;
-            }
-        }
-        return false;
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        kayttajatunnus.focus();
+        naytaKirjautumisVinkki();
     }
 }
