@@ -34,7 +34,7 @@ class Login extends CustomComponent implements View, Button.ClickListener {
         setSizeFull();
         FormLayout lomake = new FormLayout();
 
-        kayttajatunnus = new TextField("Käyttätunnus");
+        kayttajatunnus = new TextField("Käyttäjätunnus");
         salasana = new PasswordField("Salasana");
         salasana.setValue("");
 
