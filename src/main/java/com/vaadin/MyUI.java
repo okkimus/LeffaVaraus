@@ -65,7 +65,6 @@ public class MyUI extends UI implements ViewDisplay {
         getUI().getNavigator().navigateTo(ELOKUVAT);
     }
 
-    // FIXME Ei päivitä automaattisesti näkymään...
     private Component getCurrentUser(String username) {
         HorizontalLayout currentUserBar = new HorizontalLayout();
         Label currentUser;

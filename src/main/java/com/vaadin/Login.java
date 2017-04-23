@@ -59,9 +59,6 @@ class Login extends CustomComponent implements View, Button.ClickListener {
         KirjautumisKontrolli kirjautumisKontrolli = (KirjautumisKontrolli) getSession().getAttribute("kirjautumisKontrolli");
         if (kirjautumisKontrolli.signIn(kayttajat, username, password)) {
             getUI().getNavigator().navigateTo(ELOKUVAT);
-            Notification.show("Paina reload selaimessa",
-                            "käyttäjätieto ei päivity muuten selaimeen :(",
-                    Notification.Type.HUMANIZED_MESSAGE); // TODO poista kun korjattu
         } else {
             Notification.show("Antamasi salasana on väärä",
                     "Syötä salasana uudelleen",

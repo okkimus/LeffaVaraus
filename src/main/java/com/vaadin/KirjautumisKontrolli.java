@@ -1,5 +1,7 @@
 package com.vaadin;
 
+import com.vaadin.server.Page;
+
 import java.util.List;
 
 public class KirjautumisKontrolli {
@@ -8,6 +10,7 @@ public class KirjautumisKontrolli {
         for (Kayttaja k : kayttajat) {
             if (k.getKayttajatunnus().equals(username) && k.getSalasana().equals(password)) {
                 KirjautunutKayttaja.set(username, k);
+                Page.getCurrent().reload();
                 return true;
             }
         }
@@ -16,6 +19,7 @@ public class KirjautumisKontrolli {
 
     public void singOut() {
         KirjautunutKayttaja.set("",null);
+        Page.getCurrent().reload();
     }
 
     public boolean isUserSignedIn() {
