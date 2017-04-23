@@ -55,10 +55,9 @@ class Login extends CustomComponent implements View, Button.ClickListener {
     @Override
     public void buttonClick(Button.ClickEvent event) {
         String username = kayttajatunnus.getValue();
-        String password = this.salasana.getValue();
-        boolean isValid = isValid(username, password);
-        if (isValid) {
-            getSession().setAttribute("user", username);
+        String password = salasana.getValue();
+        KirjautumisKontrolli kirjautumisKontrolli = (KirjautumisKontrolli) getSession().getAttribute("kirjautumisKontrolli");
+        if (kirjautumisKontrolli.signIn(kayttajat, username, password)) {
             getUI().getNavigator().navigateTo(ELOKUVAT);
             Notification.show("Paina reload selaimessa",
                             "käyttäjätieto ei päivity muuten selaimeen :(",
@@ -70,15 +69,5 @@ class Login extends CustomComponent implements View, Button.ClickListener {
             this.salasana.setValue("");
             this.salasana.focus();
         }
-    }
-
-    private boolean isValid(String uname, String passwd) {
-        for (Kayttaja k : kayttajat) {
-            if (k.getKayttajatunnus().equals(uname) &&
-                    k.getSalasana().equals(passwd)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -29,12 +29,20 @@ import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
     private VerticalLayout layout;
+    private String username;
+    private KirjautumisKontrolli kirjautumisKontrolli;
 
     @Override
     protected void init(VaadinRequest request) {
         setSizeFull();
         final VerticalLayout root = new VerticalLayout();
-        String username = String.valueOf(getSession().getAttribute("user"));
+        kirjautumisKontrolli = new KirjautumisKontrolli();
+        getSession().setAttribute("kirjautumisKontrolli", kirjautumisKontrolli);
+        if (kirjautumisKontrolli.isUserSignedIn()) {
+            username = kirjautumisKontrolli.getKirjautunutKayttaja().getKayttajatunnus();
+        } else {
+            username ="";
+        }
         HorizontalLayout otsikko = new HorizontalLayout(getOtsikko());
         root.addComponent(otsikko);
         root.setComponentAlignment(otsikko, Alignment.MIDDLE_CENTER);
@@ -62,7 +70,7 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout currentUserBar = new HorizontalLayout();
         Label currentUser;
         Button logout = new Button("Kirjaudu ulos",this::logout);
-        if (!Objects.equals(username, "null")) {
+        if ((!Objects.equals(username, null)) && (!Objects.equals(username, ""))) {
             currentUser = new Label("Moikka "+username);
             currentUserBar.addComponents(currentUser, logout);
         } else {
@@ -73,7 +81,7 @@ public class MyUI extends UI implements ViewDisplay {
     }
 
     private void logout(Button.ClickEvent event) {
-        getSession().setAttribute("user", null);
+        kirjautumisKontrolli.singOut();
     }
 
     private static Label getOtsikko() {
