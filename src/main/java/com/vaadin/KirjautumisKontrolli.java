@@ -26,11 +26,8 @@ public class KirjautumisKontrolli {
         return !(getKirjautunutKayttaja()==null);
     }
 
-    public boolean isAdmin(String role) {
-        if ("admin".equals(role)) {
-            return getKayttajatunnus().equals("admin");
-        }
-        return false;
+    public boolean isAdmin() {
+        return KirjautunutKayttaja.getKirjautunutKayttaja().isAdmin();
     }
 
     public String getKayttajatunnus() {

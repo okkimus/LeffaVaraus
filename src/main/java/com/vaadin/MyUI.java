@@ -46,9 +46,6 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout otsikko = new HorizontalLayout(getOtsikko());
         root.addComponent(otsikko);
         root.setComponentAlignment(otsikko, Alignment.MIDDLE_CENTER);
-        HorizontalLayout userBar = new HorizontalLayout(getCurrentUser(username));
-        root.addComponent(userBar);
-        root.setComponentAlignment(userBar, Alignment.MIDDLE_RIGHT);
         root.setSizeFull();
         setContent(root);
 
@@ -65,24 +62,6 @@ public class MyUI extends UI implements ViewDisplay {
         getUI().getNavigator().navigateTo(ELOKUVAT);
     }
 
-    private Component getCurrentUser(String username) {
-        HorizontalLayout currentUserBar = new HorizontalLayout();
-        Label currentUser;
-        Button logout = new Button("Kirjaudu ulos",this::logout);
-        if ((!Objects.equals(username, null)) && (!Objects.equals(username, ""))) {
-            currentUser = new Label("Moikka "+username);
-            currentUserBar.addComponents(currentUser, logout);
-        } else {
-            currentUser = new Label("");
-            currentUserBar.addComponents(currentUser);
-        }
-        return currentUserBar;
-    }
-
-    private void logout(Button.ClickEvent event) {
-        kirjautumisKontrolli.singOut();
-    }
-
     private static Label getOtsikko() {
         final Label Otsikko = new Label("Elokuvan varaaminen");
         Otsikko.addStyleName("title");
@@ -93,16 +72,44 @@ public class MyUI extends UI implements ViewDisplay {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName("topmenu");
         barmenu.setSizeFull();
-        barmenu.addItem(ELOKUVAT,
-                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
-        barmenu.addItem(OMATVARAUKSET,
-                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
-        barmenu.addItem(YLLAPITOVIEW,
-                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
-        barmenu.addItem(LOGINVIEW,
-                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
-        barmenu.addItem(REGISTERVIEW,
-                (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(REGISTERVIEW));
+
+        MenuBar.Command logout = new MenuBar.Command() {
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                kirjautumisKontrolli.singOut();
+            }
+        };
+
+        // Käyttäjä on kirjautunut sisään tavallisena käyttäjänä
+        if (kirjautumisKontrolli.isUserSignedIn() && !kirjautumisKontrolli.isAdmin()) {
+            String helloUser = "Moikka "+
+                    kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
+            barmenu.addItem(ELOKUVAT,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
+            barmenu.addItem(OMATVARAUKSET,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
+            barmenu.addItem(helloUser, null, null);
+            barmenu.addItem("Kirjaudu ulos", null, logout);
+        // Käyttäjä on admin
+        } else if (kirjautumisKontrolli.isUserSignedIn() && kirjautumisKontrolli.isAdmin()) {
+            String helloUser = "Moikka "+
+                    kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
+            barmenu.addItem(ELOKUVAT,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
+            barmenu.addItem(OMATVARAUKSET,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
+            barmenu.addItem(YLLAPITOVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
+            barmenu.addItem(helloUser, null, null);
+            barmenu.addItem("Kirjaudu ulos", null, logout);
+        // Käyttäjä ei ole kirjautunut
+        } else {
+            barmenu.addItem(ELOKUVAT,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
+            barmenu.addItem(LOGINVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
+            barmenu.addItem(REGISTERVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(REGISTERVIEW));
+        }
         return barmenu;
     }
 
