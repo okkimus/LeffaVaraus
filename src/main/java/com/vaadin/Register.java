@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 
 @SpringView(name = Register.REGISTERVIEW)
 class Register extends VerticalLayout implements View {
-    public static final String REGISTERVIEW= "Rekisteröinti";
+    public static final String REGISTERVIEW= "Rekisteröidy";
 
     @Autowired
     RegisterContent content = new RegisterContent();

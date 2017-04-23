@@ -1,6 +1,7 @@
 package com.vaadin;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.*;
@@ -81,25 +82,23 @@ public class MyUI extends UI implements ViewDisplay {
 
         // Käyttäjä on kirjautunut sisään tavallisena käyttäjänä
         if (kirjautumisKontrolli.isUserSignedIn() && !kirjautumisKontrolli.isAdmin()) {
-            String helloUser = "Moikka "+
-                    kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
+            String helloUser = kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
             barmenu.addItem(ELOKUVAT,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
             barmenu.addItem(OMATVARAUKSET,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
-            barmenu.addItem(helloUser, null, null);
+            barmenu.addItem(helloUser, VaadinIcons.USER, null);
             barmenu.addItem("Kirjaudu ulos", null, logout);
         // Käyttäjä on admin
         } else if (kirjautumisKontrolli.isUserSignedIn() && kirjautumisKontrolli.isAdmin()) {
-            String helloUser = "Moikka "+
-                    kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
+            String helloUser = kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
             barmenu.addItem(ELOKUVAT,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
             barmenu.addItem(OMATVARAUKSET,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
             barmenu.addItem(YLLAPITOVIEW,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
-            barmenu.addItem(helloUser, null, null);
+            barmenu.addItem(helloUser, VaadinIcons.USER, null);
             barmenu.addItem("Kirjaudu ulos", null, logout);
         // Käyttäjä ei ole kirjautunut
         } else {

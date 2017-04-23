@@ -7,13 +7,14 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
+import static com.vaadin.Login.LOGINVIEW;
 
 @SpringComponent
-class RegisterContent extends HorizontalLayout {
-    private TextField nimi = new TextField("Nimi");
+class RegisterContent extends VerticalLayout {
+    private TextField nimi = new TextField("Koko nimi");
     private TextField kayttajatunnus = new TextField("Käyttäjätunnus");
-    private TextField salasana = new TextField("Salasana");
+    private PasswordField salasana = new PasswordField("Salasana");
 
     @Autowired
     private KayttajaRepository repository;
@@ -30,14 +31,17 @@ class RegisterContent extends HorizontalLayout {
     private void setKayttajat() {
         removeAllComponents();
         addLomake();
-        addShowRegisteredUsersLayout();
     }
 
     private void addLomake() {
+        Panel panel = new Panel();
+        panel.setSizeUndefined();
+        addComponent(panel);
+        setComponentAlignment(panel, Alignment.TOP_CENTER);
+
         FormLayout lomake = new FormLayout();
 
-        Button cancel = new Button("Peruuta", this::cancel);
-        Button ok = new Button("OK", this::ok);
+        Button ok = new Button("Rekisteröidy", this::ok);
         ok.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         ok.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
@@ -45,10 +49,11 @@ class RegisterContent extends HorizontalLayout {
         kayttajatunnus.setRequiredIndicatorVisible(true);
         salasana.setRequiredIndicatorVisible(true);
 
-        lomake.addComponent(new Label("Rekisteröi uusi käyttäjä"));
+        lomake.addComponent(new Label("Rekisteröidy uudeksi käyttäjäksi"));
         lomake.addComponents(nimi, kayttajatunnus, salasana);
-        lomake.addComponents(new HorizontalLayout(cancel, ok));
-        addComponent(lomake);
+        lomake.addComponents(new HorizontalLayout(ok));
+        lomake.setMargin(true);
+        panel.setContent(lomake);
     }
 
     private void ok(Button.ClickEvent event) {
@@ -59,23 +64,7 @@ class RegisterContent extends HorizontalLayout {
         nimi.setValue("");
         kayttajatunnus.setValue("");
         salasana.setValue("");
-    }
-
-    private void cancel(Button.ClickEvent event) {
-        nimi.setValue("");
-        kayttajatunnus.setValue("");
-        salasana.setValue("");
-    }
-
-    private void addShowRegisteredUsersLayout() { //TODO poista jossain välissä
-        List<Kayttaja> kayttajat;
-        kayttajat = repository.findAll();
-        VerticalLayout users = new VerticalLayout();
-        users.addComponent(new Label("Käyttäjät"));
-        kayttajat.forEach(k -> users.addComponent(new Label(k.getNimi() + " "
-                + k.getKayttajatunnus() + " "
-                + k.getSalasana())));
-        addComponent(users);
+        getUI().getNavigator().navigateTo(LOGINVIEW);
     }
 
     private void addKayttaja(Kayttaja kayttaja) {
