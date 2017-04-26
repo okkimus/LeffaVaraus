@@ -8,7 +8,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+import static com.vaadin.VarauksenTeko.VARAUKSENTEKO;
 
 @SpringComponent
 public class YksittainenElokuvaContent extends HorizontalLayout {
@@ -59,13 +59,23 @@ public class YksittainenElokuvaContent extends HorizontalLayout {
         for (Naytos n : naytosRepository.findAll()) {
             if (Integer.parseInt(n.getElokuvanId())== this.elokuva.getId()) {
                 HorizontalLayout naytos = new HorizontalLayout();
-                naytos.addComponents(new Label(n.getKellonAika()), new Label(n.getPaiva()), new Label(n.getSali()));
+                Button varausNappi = new Button("Varaappa tästä lippus!");
+                varausNappi.addClickListener(click ->
+                        getUI().getNavigator().navigateTo(VARAUKSENTEKO + "/" + n.getId()));
+
+                naytos.addComponents(new Label(
+                        n.getKellonAika()),
+                        new Label(n.getPaiva()),
+                        new Label(n.getSali()),
+                        varausNappi);
                 naytokset.addComponent(naytos);
                 laskuri++;
             }
         }
         if (laskuri == 0) {
-            addComponent(new Label("Valitettavasti elokuvalla ei ole tulevia näytöksiä :("));
+            VerticalLayout vL = new VerticalLayout();
+            vL.addComponent(new Label("Valitettavasti elokuvalla ei ole tulevia näytöksiä :("));
+            addComponent(vL);
         } else {
             addComponent(naytokset);
         }

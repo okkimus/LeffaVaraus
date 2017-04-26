@@ -22,7 +22,6 @@ import static com.vaadin.Register.REGISTERVIEW;
 import static com.vaadin.YllapitoElokuvat.YLLAPITOELOKUVAVIEW;
 import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
 import static com.vaadin.YllapitoNaytokset.YLLAPITONAYTOKSETVIEW;
-import static com.vaadin.YksittainenElokuva.YKSITTAINENELOKUVAVIEW;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window

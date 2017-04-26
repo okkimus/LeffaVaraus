@@ -20,9 +20,9 @@ INSERT INTO Varaus VALUES(3, 'Alien', 1, 2, 2, 2);
 INSERT INTO Varaus VALUES(4, 'JutassiPark', 1, 3, 2, 3);
 
 
-CREATE TABLE IF NOT EXISTS Naytos(id IDENTITY PRIMARY KEY, elokuvanId VARCHAR(3) NOT NULL, sali VARCHAR(20) NOT NULL, kellonAika VARCHAR(9) NOT NULL, paiva VARCHAR(15) NOT NULL, riveja INT NOT NULL, paikkojaRivilla INT NOT NULL);
+CREATE TABLE IF NOT EXISTS Naytos(id IDENTITY PRIMARY KEY, elokuvanId INTEGER NOT NULL, sali VARCHAR(20) NOT NULL, kellonAika VARCHAR(9) NOT NULL, paiva VARCHAR(15) NOT NULL, riveja INT NOT NULL, paikkojaRivilla INT NOT NULL);
 DELETE FROM Naytos;
-INSERT INTO Naytos VALUES(1, '1', 'klo18', 6, 'huomenna', 5, 'isosali');
-INSERT INTO Naytos VALUES(2, '1', 'klo14', 6, 'tänää', 5, 'pikkusali');
-INSERT INTO Naytos VALUES(3, '3', 'klo22', 2, 'eile', 7, 'semiisosali');
+INSERT INTO Naytos VALUES(1, 1, 'klo18', 6, 'huomenna', 5, 'isosali');
+INSERT INTO Naytos VALUES(2, 1, 'klo14', 6, 'tänää', 5, 'pikkusali');
+INSERT INTO Naytos VALUES(3, 3, 'klo22', 2, 'eile', 7, 'semiisosali');
 
