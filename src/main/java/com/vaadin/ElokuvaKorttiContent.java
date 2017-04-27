@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import static com.vaadin.YksittainenElokuva.YKSITTAINENELOKUVAVIEW;
+
 @SpringComponent
 class ElokuvaKorttiContent extends HorizontalLayout {
 
+
     @Autowired
-    private ElokuvaRepository repository;
+    private ElokuvaRepository elokuvaRepository;
     private List<Elokuva> elokuvat;
 
     @PostConstruct
@@ -21,8 +24,8 @@ class ElokuvaKorttiContent extends HorizontalLayout {
         update();
     }
 
-    private void update() {
-        this.elokuvat = repository.findAll();
+    public void update() {
+        this.elokuvat = elokuvaRepository.findAll();
         setKayttajat();
     }
 
@@ -49,9 +52,10 @@ class ElokuvaKorttiContent extends HorizontalLayout {
             final Label Nimi = new Label(nimi);
             final Label Tyylilaji = new Label(tyylilaji);
 
-            Button leffa1nappi = new Button("Varaa lippu");
-
-            leffatiedotright.addComponents(Nimi, Tyylilaji, leffa1nappi);
+            Button leffaNappi = new Button("Varaa lippu");
+            leffaNappi.addClickListener(click ->
+                    getUI().getNavigator().navigateTo(YKSITTAINENELOKUVAVIEW + "/" + e.getId()));
+            leffatiedotright.addComponents(Nimi, Tyylilaji, leffaNappi);
             leffatiedotleft.addComponent(kuva1);
             leffaKortti.addComponents(leffatiedotleft, leffatiedotright);
 

@@ -8,25 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = OmatVaraukset.OMATVARAUKSET)
-public class OmatVaraukset extends VerticalLayout implements View {
-    public static final String OMATVARAUKSET = "Omat varaukset";
-
-
+@SpringView(name = YllapitoNaytokset.YLLAPITONAYTOKSETVIEW)
+public class YllapitoNaytokset extends VerticalLayout implements View {
+    public static final String YLLAPITONAYTOKSETVIEW = "Hallinoi näytöksiä";
 
     @Autowired
-    OmatVarauksetContent content = new OmatVarauksetContent();
+    YllapitoNaytoksetContent content = new YllapitoNaytoksetContent();
 
     @PostConstruct
-    void init() { addComponent(content);
+    void init() {
+        addComponent(content);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        content.init();
-        init();
+        // This view is constructed in the init() method()
     }
-
-
-
 }

@@ -15,8 +15,9 @@ import java.util.Objects;
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
 import static com.vaadin.Login.LOGINVIEW;
 import static com.vaadin.Register.REGISTERVIEW;
-import static com.vaadin.Yllapito.YLLAPITOVIEW;
+import static com.vaadin.YllapitoElokuvat.YLLAPITOELOKUVAVIEW;
 import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
+import static com.vaadin.YllapitoNaytokset.YLLAPITONAYTOKSETVIEW;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -96,8 +97,11 @@ public class MyUI extends UI implements ViewDisplay {
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
             barmenu.addItem(OMATVARAUKSET,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
-            barmenu.addItem(YLLAPITOVIEW,
-                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
+            MenuBar.MenuItem yllapitoValikko = barmenu.addItem("Ylläpito", null, null);
+            yllapitoValikko.addItem(YLLAPITOELOKUVAVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOELOKUVAVIEW));
+            yllapitoValikko.addItem(YLLAPITONAYTOKSETVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITONAYTOKSETVIEW));
             barmenu.addItem(helloUser, VaadinIcons.USER, null);
             barmenu.addItem("Kirjaudu ulos", null, logout);
         // Käyttäjä ei ole kirjautunut
