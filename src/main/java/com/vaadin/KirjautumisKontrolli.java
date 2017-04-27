@@ -34,6 +34,10 @@ public class KirjautumisKontrolli {
         return KirjautunutKayttaja.get();
     }
 
+    public long getKayttajaId() {
+        return KirjautunutKayttaja.getKirjautunutKayttaja().getId();
+    }
+
     public Kayttaja getKirjautunutKayttaja() {
         return KirjautunutKayttaja.getKirjautunutKayttaja();
     }

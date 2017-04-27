@@ -67,6 +67,11 @@ public class Kayttaja {
         this.salasana = salasana;
     }
 
+    public long getId() {
+        return id;
+    }
+
+
     @Override
     public String toString() {
         return "Kayttaja{" +
