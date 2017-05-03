@@ -8,8 +8,12 @@ import com.vaadin.server.*;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.awt.*;
 import java.util.Objects;
 
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
@@ -85,7 +89,8 @@ public class MyUI extends UI implements ViewDisplay {
             barmenu.addItem(OMATVARAUKSET,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
             barmenu.addItem(helloUser, VaadinIcons.USER, null);
-            barmenu.addItem("Kirjaudu ulos", null, logout);
+            MenuBar.MenuItem ku = barmenu.addItem("Kirjaudu ulos", null, logout);
+            ku.setStyleName("oikeaReuna");
         // Käyttäjä on admin
         } else if (kirjautumisKontrolli.isUserSignedIn() && kirjautumisKontrolli.isAdmin()) {
             String helloUser = kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
@@ -96,15 +101,18 @@ public class MyUI extends UI implements ViewDisplay {
             barmenu.addItem(YLLAPITOVIEW,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITOVIEW));
             barmenu.addItem(helloUser, VaadinIcons.USER, null);
-            barmenu.addItem("Kirjaudu ulos", null, logout);
+            MenuBar.MenuItem ku = barmenu.addItem("Kirjaudu ulos", null, logout);
+            ku.setStyleName("oikeaReuna");
         // Käyttäjä ei ole kirjautunut
         } else {
             barmenu.addItem(ELOKUVAT,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
-            barmenu.addItem(LOGINVIEW,
-                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
-            barmenu.addItem(REGISTERVIEW,
+            MenuBar.MenuItem register = barmenu.addItem(REGISTERVIEW,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(REGISTERVIEW));
+            MenuBar.MenuItem login = barmenu.addItem(LOGINVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
+            login.setStyleName("oikeaReuna");
+            register.setStyleName("oikeaReuna");
         }
         return barmenu;
     }

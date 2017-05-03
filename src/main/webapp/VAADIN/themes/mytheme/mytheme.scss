@@ -35,4 +35,10 @@
   @include valo;
 
   // Insert your own theme rules here
+  .v-menubar-menuitem-oikeaReuna{
+    position: absolute;
+    right: 10px;
+    top: 0;
+    float: right;
+  }
 }
