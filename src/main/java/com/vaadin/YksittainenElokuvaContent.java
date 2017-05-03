@@ -8,6 +8,8 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+
+import static com.vaadin.Login.LOGINVIEW;
 import static com.vaadin.VarauksenTeko.VARAUKSENTEKO;
 
 @SpringComponent
@@ -59,15 +61,24 @@ public class YksittainenElokuvaContent extends HorizontalLayout {
         for (Naytos n : naytosRepository.findAll()) {
             if (Integer.parseInt(n.getElokuvanId())== this.elokuva.getId()) {
                 HorizontalLayout naytos = new HorizontalLayout();
-                Button varausNappi = new Button("Varaappa tästä lippus!");
-                varausNappi.addClickListener(click ->
-                        getUI().getNavigator().navigateTo(VARAUKSENTEKO + "/" + n.getId()));
+                KirjautumisKontrolli kirjautumisKontrolli = (KirjautumisKontrolli) getSession().getAttribute("kirjautumisKontrolli");
 
+                Button varausNappi = new Button("Varaappa tästä lippus!");
+                if (kirjautumisKontrolli.isUserSignedIn() == true) {
+                    varausNappi.addClickListener(click ->
+                            getUI().getNavigator().navigateTo(VARAUKSENTEKO + "/" + n.getId()));
+                } else {
+                    varausNappi.addClickListener(click ->
+                            getUI().getNavigator().navigateTo(LOGINVIEW));
+                    varausNappi.addClickListener(click ->
+                            Notification.show("Kirjaudu sisään varataksesi lipun!"));
+                }
                 naytos.addComponents(new Label(
-                        n.getKellonAika()),
+                                n.getKellonAika()),
                         new Label(n.getPaiva()),
                         new Label(n.getSali()),
                         varausNappi);
+
                 naytokset.addComponent(naytos);
                 laskuri++;
             }
