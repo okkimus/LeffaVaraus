@@ -39,6 +39,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
+        Page.getCurrent().setTitle("LeffaVaraus");
         final VerticalLayout root = new VerticalLayout();
         kirjautumisKontrolli = new KirjautumisKontrolli();
         getSession().setAttribute("kirjautumisKontrolli", kirjautumisKontrolli);
