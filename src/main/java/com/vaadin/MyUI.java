@@ -26,7 +26,7 @@ import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @SpringUI
-@Theme("valo")
+@Theme("mytheme")
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
     private VerticalLayout layout;
@@ -35,7 +35,6 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
-        setSizeFull();
         final VerticalLayout root = new VerticalLayout();
         kirjautumisKontrolli = new KirjautumisKontrolli();
         getSession().setAttribute("kirjautumisKontrolli", kirjautumisKontrolli);
@@ -47,7 +46,6 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout otsikko = new HorizontalLayout(getOtsikko());
         root.addComponent(otsikko);
         root.setComponentAlignment(otsikko, Alignment.MIDDLE_CENTER);
-        root.setSizeFull();
         setContent(root);
 
         final CssLayout navigationBar = new CssLayout();
@@ -57,7 +55,6 @@ public class MyUI extends UI implements ViewDisplay {
         root.addComponent(navigationBar);
 
         layout = new VerticalLayout();
-        layout.setSizeFull();
         root.addComponent(layout);
         root.setExpandRatio(layout, 1.0f);
         getUI().getNavigator().navigateTo(ELOKUVAT);
