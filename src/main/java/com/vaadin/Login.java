@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
+import static com.vaadin.Register.REGISTERVIEW;
 
 @SpringView(name = Login.LOGINVIEW)
 class Login extends VerticalLayout implements View, Button.ClickListener {
@@ -49,8 +50,16 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         kirjauduNappi.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         kirjauduNappi.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
+        HorizontalLayout kehoitus = new HorizontalLayout();
+        Button toRegister = new Button("Uusi Käyttäjä? Rekisteröidy");
+        toRegister.addClickListener(clickEvent ->
+                getUI().getNavigator().navigateTo(REGISTERVIEW)
+        );
+        toRegister.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+        kehoitus.addComponent(toRegister);
+
         lomake.addComponent(new Label("Kirjaudu sisään"));
-        lomake.addComponents(kayttajatunnus, salasana, kirjauduNappi);
+        lomake.addComponents(kayttajatunnus, salasana, kirjauduNappi, kehoitus);
         lomake.setMargin(true);
         panel.setContent(lomake);
     }
