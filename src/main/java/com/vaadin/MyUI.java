@@ -40,6 +40,7 @@ public class MyUI extends UI implements ViewDisplay {
     @Override
     protected void init(VaadinRequest request) {
         Page.getCurrent().setTitle("LeffaVaraus");
+        setStyleName("sivu");
         final VerticalLayout root = new VerticalLayout();
         kirjautumisKontrolli = new KirjautumisKontrolli();
         getSession().setAttribute("kirjautumisKontrolli", kirjautumisKontrolli);
@@ -73,7 +74,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     private MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
-        barmenu.setStyleName("topmenu");
+        barmenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
         barmenu.setSizeFull();
 
         MenuBar.Command logout = new MenuBar.Command() {
