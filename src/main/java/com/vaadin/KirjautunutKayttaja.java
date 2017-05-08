@@ -14,7 +14,7 @@ public class KirjautunutKayttaja {
     }
 
     /**
-     * Palauttaa kirjautuneen käyttäjän käyttätunnuksen
+     * Palauttaa kirjautuneen käyttäjän käyttäjätunnuksen
      * @return  kirjautuneen käyttäjän käyttäjätunnus
      */
     public static String get() {

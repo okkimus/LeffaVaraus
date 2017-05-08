@@ -34,7 +34,7 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
     }
 
     /**
-     *  Kirjautumissivun käyttöliittymäjG
+     *  Kirjautumissivun käyttöliittymä
      */
     public Login() {
         Panel panel = new Panel();
