@@ -33,6 +33,9 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         this.kayttajat = repository.findAll();
     }
 
+    /**
+     *  Kirjautumissivun käyttöliittymäjG
+     */
     public Login() {
         Panel panel = new Panel();
         panel.setSizeUndefined();
@@ -64,6 +67,9 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         panel.setContent(lomake);
     }
 
+    /**
+     * Näyttää pop-up ikkunan jossa on testitunnusten nimet ja salasanat
+     */
     private void naytaKirjautumisVinkki() {
 
         List<Kayttaja> kayttajat;
@@ -81,6 +87,10 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         notif.show(Page.getCurrent());
     }
 
+    /**
+     * Kirjaudu napin tapahtumankäsittelijä
+     * @param event
+     */
     @Override
     public void buttonClick(Button.ClickEvent event) {
         String username = kayttajatunnus.getValue();
@@ -97,6 +107,10 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         }
     }
 
+    /**
+     * Näkymän avaamisen tapahtumankäsittelijä
+     * @param event
+     */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         kayttajatunnus.focus();
