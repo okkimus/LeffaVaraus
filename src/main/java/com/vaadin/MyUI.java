@@ -39,6 +39,14 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
+        setUI();
+    }
+
+    /**
+     * Päänäkymän käyttöliittymä
+     * Sisältää sivuston otsikon ja valikkorivin
+     */
+    public void setUI() {
         Page.getCurrent().setTitle("LeffaVaraus");
         setStyleName("sivu");
         final VerticalLayout root = new VerticalLayout();
@@ -66,12 +74,20 @@ public class MyUI extends UI implements ViewDisplay {
         getUI().getNavigator().navigateTo(ELOKUVAT);
     }
 
+    /**
+     * Palauttaa sivuston otsikon
+     * @return  Otsikko
+     */
     private static Label getOtsikko() {
         final Label Otsikko = new Label("Elokuvan varaaminen");
         Otsikko.addStyleName("title");
         return Otsikko;
     }
 
+    /**
+     * Palauttaa valikkorivin
+     * @return  Valikkorivi
+     */
     private MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
         barmenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);

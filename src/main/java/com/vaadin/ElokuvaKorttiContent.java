@@ -1,6 +1,5 @@
 package com.vaadin;
 
-import com.vaadin.server.Responsive;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
@@ -31,6 +30,9 @@ class ElokuvaKorttiContent extends HorizontalLayout {
         addKortit();
     }
 
+    /**
+     * Elokuvanäkymän käyttöliittymä
+     */
     private void addKortit() {
         CssLayout csslayout = new CssLayout();
         csslayout.setSizeFull();
@@ -41,18 +43,18 @@ class ElokuvaKorttiContent extends HorizontalLayout {
             String tyylilaji = e.getTyylilaji();
             String kuvanOsoite = e.getKuvanOsoite();
 
-            Image kuva1 = new Image();
-            kuva1.setSource(new ThemeResource(kuvanOsoite));
+            Image kuva = new Image();
+            kuva.setSource(new ThemeResource(kuvanOsoite));
 
             final VerticalLayout leffatiedotright = new VerticalLayout();
             final VerticalLayout leffatiedotleft = new VerticalLayout();
             final Label Nimi = new Label(nimi);
             final Label Tyylilaji = new Label(tyylilaji);
 
-            Button leffa1nappi = new Button("Varaa lippu");
+            Button leffaNappi = new Button("Varaa lippu");
 
-            leffatiedotright.addComponents(Nimi, Tyylilaji, leffa1nappi);
-            leffatiedotleft.addComponent(kuva1);
+            leffatiedotright.addComponents(Nimi, Tyylilaji, leffaNappi);
+            leffatiedotleft.addComponent(kuva);
             leffaKortti.addComponents(leffatiedotleft, leffatiedotright);
 
             csslayout.addComponent(leffaKortti);
