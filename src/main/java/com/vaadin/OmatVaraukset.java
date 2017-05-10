@@ -23,8 +23,8 @@ public class OmatVaraukset extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        content.update();
         init();
+        content.update();
     }
 
 

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 
+import static com.vaadin.OmatVaraukset.OMATVARAUKSET;
+
 @SpringComponent
 public class VarauksenTekoContent extends HorizontalLayout {
     @Autowired
@@ -57,11 +59,11 @@ public class VarauksenTekoContent extends HorizontalLayout {
 
             Button teeVaraus = new Button("Suorita varaus");
             teeVaraus.addClickListener(click -> teeVaraukset());
+            teeVaraus.addClickListener(click -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
             teeVaraus.addClickListener(click -> Notification.show("Varasit juuri "
                     + varattavatPaikat.size()
                     + " paikkaa elokuvaan " + elokuva.getNimi()
                     + " kello " + naytos.getKellonAika() + " " + naytos.getPaiva()));
-            teeVaraus.addClickListener(click -> init());
 
             addComponent(teeVaraus);
         }
@@ -181,12 +183,18 @@ public class VarauksenTekoContent extends HorizontalLayout {
     }
 
     private void teeVaraukset() {
-        for (int i = 0; i < varattavatPaikat.size(); i++) {
-            int rivi = varattavatPaikat.get(i)[0];
-            int paikka = varattavatPaikat.get(i)[1];
-            //TÄHÄN TARVITSEE VARAAJAN IDN SESSIOSTA
-            Varaus v = new Varaus(1, elokuva.getNimi(), (int) naytos.getId(), rivi, paikka);
-            varausRepository.save(v);
+        try {
+            KirjautumisKontrolli kirjautumisKontrolli = (KirjautumisKontrolli) getSession().getAttribute("kirjautumisKontrolli");
+            long id = kirjautumisKontrolli.getKayttajaId();
+            for (int i = 0; i < varattavatPaikat.size(); i++) {
+                int rivi = varattavatPaikat.get(i)[0];
+                int paikka = varattavatPaikat.get(i)[1];
+
+                Varaus v = new Varaus((int) id, elokuva.getNimi(), (int) naytos.getId(), rivi, paikka);
+                varausRepository.save(v);
+            }
+        } catch (Exception e) {
+            Notification.show("Hupsista, jokin meni pieleen...varaus epäonnistui.");
         }
     }
 }
