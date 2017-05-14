@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-@SpringView(name = Yllapito.YLLAPITOVIEW)
-class Yllapito extends VerticalLayout implements View {
-    public static final String YLLAPITOVIEW = "Ylläpito";
+@SpringView(name = YksittainenElokuva.YKSITTAINENELOKUVAVIEW)
+class YksittainenElokuva extends VerticalLayout implements View {
+    public static final String YKSITTAINENELOKUVAVIEW= "Elokuva";
 
     @Autowired
-    YllapitoContent content = new YllapitoContent();
+    ElokuvaRepository repository;
+    @Autowired
+    YksittainenElokuvaContent content = new YksittainenElokuvaContent();
+
 
     @PostConstruct
     void init() {
@@ -22,6 +25,8 @@ class Yllapito extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        // This view is constructed in the init() method()
+        int id = Integer.parseInt(event.getParameters());
+        content.haeElokuvaKannasta(id);
+        init();
     }
 }

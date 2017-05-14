@@ -35,6 +35,10 @@ public class Kayttaja {
         this.salasana = salasana;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public boolean isAdmin() {
         return admin;
     }
@@ -66,11 +70,6 @@ public class Kayttaja {
     public void setSalasana(String salasana) {
         this.salasana = salasana;
     }
-
-    public long getId() {
-        return id;
-    }
-
 
     @Override
     public String toString() {
