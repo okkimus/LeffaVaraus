@@ -33,6 +33,9 @@ class RegisterContent extends VerticalLayout {
         addLomake();
     }
 
+    /**
+     * Rekisteröintisivun käyttöliittymä
+     */
     private void addLomake() {
         Panel panel = new Panel();
         panel.setSizeUndefined();
@@ -56,6 +59,10 @@ class RegisterContent extends VerticalLayout {
         panel.setContent(lomake);
     }
 
+    /**
+     * Rekisteröidy napin tapahtumakäsittelijä
+     * @param event
+     */
     private void ok(Button.ClickEvent event) {
         Kayttaja k = new Kayttaja(nimi.getValue(),
                 kayttajatunnus.getValue(),
@@ -67,6 +74,10 @@ class RegisterContent extends VerticalLayout {
         getUI().getNavigator().navigateTo(LOGINVIEW);
     }
 
+    /**
+     * Lisää käyttäjän käyttäjätietokantaan
+     * @param kayttaja
+     */
     private void addKayttaja(Kayttaja kayttaja) {
         repository.save(kayttaja);
         update();

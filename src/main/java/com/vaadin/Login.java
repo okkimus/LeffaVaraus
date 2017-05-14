@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
+import static com.vaadin.Register.REGISTERVIEW;
 
 @SpringView(name = Login.LOGINVIEW)
 class Login extends VerticalLayout implements View, Button.ClickListener {
@@ -32,6 +33,9 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         this.kayttajat = repository.findAll();
     }
 
+    /**
+     *  Kirjautumissivun käyttöliittymä
+     */
     public Login() {
         Panel panel = new Panel();
         panel.setSizeUndefined();
@@ -49,12 +53,23 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         kirjauduNappi.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         kirjauduNappi.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
+        HorizontalLayout kehoitus = new HorizontalLayout();
+        Button toRegister = new Button("Uusi Käyttäjä? Rekisteröidy");
+        toRegister.addClickListener(clickEvent ->
+                getUI().getNavigator().navigateTo(REGISTERVIEW)
+        );
+        toRegister.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+        kehoitus.addComponent(toRegister);
+
         lomake.addComponent(new Label("Kirjaudu sisään"));
-        lomake.addComponents(kayttajatunnus, salasana, kirjauduNappi);
+        lomake.addComponents(kayttajatunnus, salasana, kirjauduNappi, kehoitus);
         lomake.setMargin(true);
         panel.setContent(lomake);
     }
 
+    /**
+     * Näyttää pop-up ikkunan jossa on testitunnusten nimet ja salasanat
+     */
     private void naytaKirjautumisVinkki() {
 
         List<Kayttaja> kayttajat;
@@ -72,6 +87,10 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         notif.show(Page.getCurrent());
     }
 
+    /**
+     * Kirjaudu napin tapahtumankäsittelijä
+     * @param event
+     */
     @Override
     public void buttonClick(Button.ClickEvent event) {
         String username = kayttajatunnus.getValue();
@@ -88,6 +107,10 @@ class Login extends VerticalLayout implements View, Button.ClickListener {
         }
     }
 
+    /**
+     * Näkymän avaamisen tapahtumankäsittelijä
+     * @param event
+     */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         kayttajatunnus.focus();

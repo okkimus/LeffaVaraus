@@ -8,8 +8,12 @@ import com.vaadin.server.*;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.awt.*;
 import java.util.Objects;
 
 import static com.vaadin.ElokuvaKortti.ELOKUVAT;
@@ -27,7 +31,7 @@ import static com.vaadin.YllapitoNaytokset.YLLAPITONAYTOKSETVIEW;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @SpringUI
-@Theme("valo")
+@Theme("mytheme")
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
     private VerticalLayout layout;
@@ -36,7 +40,16 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
-        setSizeFull();
+        setUI();
+    }
+
+    /**
+     * Päänäkymän käyttöliittymä
+     * Sisältää sivuston otsikon ja valikkorivin
+     */
+    public void setUI() {
+        Page.getCurrent().setTitle("LeffaVaraus");
+        setStyleName("sivu");
         final VerticalLayout root = new VerticalLayout();
         kirjautumisKontrolli = new KirjautumisKontrolli();
         getSession().setAttribute("kirjautumisKontrolli", kirjautumisKontrolli);
@@ -48,7 +61,6 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout otsikko = new HorizontalLayout(getOtsikko());
         root.addComponent(otsikko);
         root.setComponentAlignment(otsikko, Alignment.MIDDLE_CENTER);
-        root.setSizeFull();
         setContent(root);
 
         final CssLayout navigationBar = new CssLayout();
@@ -58,21 +70,28 @@ public class MyUI extends UI implements ViewDisplay {
         root.addComponent(navigationBar);
 
         layout = new VerticalLayout();
-        layout.setSizeFull();
         root.addComponent(layout);
         root.setExpandRatio(layout, 1.0f);
         getUI().getNavigator().navigateTo(ELOKUVAT);
     }
 
+    /**
+     * Palauttaa sivuston otsikon
+     * @return  Otsikko
+     */
     private static Label getOtsikko() {
         final Label Otsikko = new Label("Elokuvan varaaminen");
         Otsikko.addStyleName("title");
         return Otsikko;
     }
 
+    /**
+     * Palauttaa valikkorivin
+     * @return  Valikkorivi
+     */
     private MenuBar getMenubar() {
         MenuBar barmenu = new MenuBar();
-        barmenu.setStyleName("topmenu");
+        barmenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
         barmenu.setSizeFull();
 
         MenuBar.Command logout = new MenuBar.Command() {
@@ -89,7 +108,8 @@ public class MyUI extends UI implements ViewDisplay {
             barmenu.addItem(OMATVARAUKSET,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(OMATVARAUKSET));
             barmenu.addItem(helloUser, VaadinIcons.USER, null);
-            barmenu.addItem("Kirjaudu ulos", null, logout);
+            MenuBar.MenuItem ku = barmenu.addItem("Kirjaudu ulos", null, logout);
+            ku.setStyleName("oikeaReuna");
         // Käyttäjä on admin
         } else if (kirjautumisKontrolli.isUserSignedIn() && kirjautumisKontrolli.isAdmin()) {
             String helloUser = kirjautumisKontrolli.getKirjautunutKayttaja().getNimi();
@@ -103,15 +123,18 @@ public class MyUI extends UI implements ViewDisplay {
             yllapitoValikko.addItem(YLLAPITONAYTOKSETVIEW,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(YLLAPITONAYTOKSETVIEW));
             barmenu.addItem(helloUser, VaadinIcons.USER, null);
-            barmenu.addItem("Kirjaudu ulos", null, logout);
+            MenuBar.MenuItem ku = barmenu.addItem("Kirjaudu ulos", null, logout);
+            ku.setStyleName("oikeaReuna");
         // Käyttäjä ei ole kirjautunut
         } else {
             barmenu.addItem(ELOKUVAT,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(ELOKUVAT));
-            barmenu.addItem(LOGINVIEW,
-                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
-            barmenu.addItem(REGISTERVIEW,
+            MenuBar.MenuItem register = barmenu.addItem(REGISTERVIEW,
                     (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(REGISTERVIEW));
+            MenuBar.MenuItem login = barmenu.addItem(LOGINVIEW,
+                    (MenuBar.Command) selectedItem -> getUI().getNavigator().navigateTo(LOGINVIEW));
+            login.setStyleName("oikeaReuna");
+            register.setStyleName("oikeaReuna");
         }
         return barmenu;
     }
